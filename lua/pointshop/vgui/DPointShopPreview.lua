@@ -40,6 +40,7 @@ function PANEL:Paint()
 	self.Entity:DrawModel()
 
 	self:DrawOtherModels()
+	self:DrawOtherModels2()
 	
 	render.SuppressEngineLighting( false )
 	cam.IgnoreZ( false )
@@ -50,7 +51,7 @@ end
 
 function PANEL:DrawOtherModels()
 	local ply = LocalPlayer()
-	
+
 	if PS.ClientsideModels[ply] then
 		for item_id, model in pairs(PS.ClientsideModels[ply]) do
 			local ITEM = PS.Items[item_id]
@@ -85,15 +86,21 @@ function PANEL:DrawOtherModels()
 			model:DrawModel()
 		end
 	end
-	
+end
+
+function PANEL:DrawOtherModels2()	
 	if PS.HoverModel then
 		local ITEM = PS.Items[PS.HoverModel]
 		
 		if ITEM.NoPreview then return end -- don't show
 		if ITEM.WeaponClass then return end -- hack for weapons
 		
-		if not ITEM.Attachment and not ITEM.Bone then -- must be a playermodel?
-			self:SetModel(ITEM.Model)
+		if (not ITEM.Attachment and not ITEM.Bone) or ITEM.MaterialPreview then -- must be a playermodel or material?
+			if ITEM.MaterialPreview then
+				self.Entity:SetMaterial(ITEM.Material)
+			else
+				self:SetModel(ITEM.Model)
+			end
 		else
 			local model = PS.HoverModelClientsideModel
 			
@@ -126,6 +133,7 @@ function PANEL:DrawOtherModels()
 		end
 	else
 		self:SetModel(LocalPlayer():GetModel())
+		self.Entity:SetMaterial( nil )
 	end
 end
 

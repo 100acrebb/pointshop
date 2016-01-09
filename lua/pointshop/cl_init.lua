@@ -46,6 +46,10 @@ function PS:SetHoverItem(item_id)
 		self.HoverModelClientsideModel = ClientsideModel(ITEM.Model, RENDERGROUP_OPAQUE)
 		self.HoverModelClientsideModel:SetNoDraw(true)
 	end
+	
+	if ITEM.MaterialPreview then
+		self.HoverModel = item_id
+	end
 end
 
 function PS:RemoveHoverItem()

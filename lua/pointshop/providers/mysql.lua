@@ -40,10 +40,13 @@ local mysql_port = 3306 -- Your MySQL port. Most likely is 3306.
 
 require('mysqloo')
 
+local shouldmysql = false
+
 local db = mysqloo.connect(mysql_hostname, mysql_username, mysql_password, mysql_database, mysql_port)
 
 function db:onConnected()
     MsgN('PointShop MySQL: Connected!')
+    shouldmysql = true
 end
 
 function db:onConnectionFailed(err)
@@ -53,6 +56,8 @@ end
 db:connect()
 
 function PROVIDER:GetData(ply, callback)
+    if not shouldmysql then self:GetFallback():GetData(ply, callback) end
+    
     local qs = [[
     SELECT *
     FROM `pointshop_data`
@@ -92,6 +97,7 @@ function PROVIDER:GetData(ply, callback)
 end
 
 function PROVIDER:SetPoints(ply, points)
+    if not shouldmysql then self:GetFallback():SetPoints(ply, points) end
     local qs = [[
     INSERT INTO `pointshop_data` (uniqueid, points, items)
     VALUES ('%s', '%s', '[]')
@@ -118,6 +124,7 @@ function PROVIDER:SetPoints(ply, points)
 end
 
 function PROVIDER:GivePoints(ply, points)
+    if not shouldmysql then self:GetFallback():GivePoints(ply, points) end
     local qs = [[
     INSERT INTO `pointshop_data` (uniqueid, points, items)
     VALUES ('%s', '%s', '[]')
@@ -144,6 +151,7 @@ function PROVIDER:GivePoints(ply, points)
 end
 
 function PROVIDER:TakePoints(ply, points)
+    if not shouldmysql then self:GetFallback():TakePoints(ply, points) end
     local qs = [[
     INSERT INTO `pointshop_data` (uniqueid, points, items)
     VALUES ('%s', '%s', '[]')
@@ -174,6 +182,7 @@ function PROVIDER:SaveItem(ply, item_id, data)
 end
 
 function PROVIDER:GiveItem(ply, item_id, data)
+    if not shouldmysql then self:GetFallback():GiveItem(ply, item_id, data) end
     local tmp = table.Copy(ply.PS_Items)
     tmp[item_id] = data
 
@@ -203,6 +212,7 @@ function PROVIDER:GiveItem(ply, item_id, data)
 end
 
 function PROVIDER:TakeItem(ply, item_id)
+    if not shouldmysql then self:GetFallback():TakeItem(ply, item_id) end
     local tmp = table.Copy(ply.PS_Items)
     tmp[item_id] = nil
 
@@ -232,6 +242,7 @@ function PROVIDER:TakeItem(ply, item_id)
 end
  
 function PROVIDER:SetData(ply, points, items)
+    if not shouldmysql then self:GetFallback():SetData(ply, points, items) end
     local qs = [[
     INSERT INTO `pointshop_data` (uniqueid, points, items)
     VALUES ('%s', '%s', '%s')
