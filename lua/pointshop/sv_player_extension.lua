@@ -34,7 +34,7 @@ function Player:PS_PlayerInitialSpawn()
 	self.PS_Items = {}
 	
 	-- Send stuff
-	timer.Simple(1, function()
+	timer.Simple(5, function()
 		if !IsValid(self) then return end
 		
 		self:PS_LoadData()

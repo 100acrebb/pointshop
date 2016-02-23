@@ -19,6 +19,9 @@ if THABName == "BunnyHop" then
 	PS.Config.ShopKey = 'F3'
 end
 
+if THABName == "Jailbreak" then
+	PS.Config.ShopKey = 'F3'
+end
 
 PS.Config.ShopCommand = 'ps_shop' -- Console command to open the shop, set to blank to disable
 PS.Config.ShopChatCommand = '!shop' -- Chat command to open the shop, set to blank to disable
@@ -26,8 +29,8 @@ PS.Config.ShopChatCommand = '!shop' -- Chat command to open the shop, set to bla
 PS.Config.NotifyOnJoin = false -- Should players be notified about opening the shop when they spawn?
 
 PS.Config.PointsOverTime = true -- Should players be given points over time?
-PS.Config.PointsOverTimeDelay = 5 -- If so, how many minutes apart?
-PS.Config.PointsOverTimeAmount = 50 -- And if so, how many points to give after the time?
+PS.Config.PointsOverTimeDelay = 6 -- If so, how many minutes apart?
+PS.Config.PointsOverTimeAmount = 100 -- And if so, how many points to give after the time?
 
 PS.Config.AdminCanAccessAdminTab = false -- Can Admins access the Admin tab?
 PS.Config.SuperAdminCanAccessAdminTab = true -- Can SuperAdmins access the Admin tab?
